@@ -33,10 +33,10 @@ jobs:
 
       - name: Setup GitHub package registry for NuGet
         run: |
-          dotnet nuget add source
-          --username ${{ github.repository_owner }}
-          --password ${{ secrets.GITHUB_TOKEN }}
-          --store-password-in-clear-text
+          dotnet nuget add source \
+          --username ${{ github.repository_owner }} \
+          --password ${{ secrets.GITHUB_TOKEN }} \
+          --store-password-in-clear-text \
           --name github ${{ vars.NUGET_SOURCE_URL }}
 
       - name: Restore solution
