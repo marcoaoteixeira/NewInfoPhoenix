@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Nameless.InfoPhoenix.Entities;
 using Nameless.InfoPhoenix.Requests;
 using Nameless.InfoPhoenix.Responses;
 using Nameless.InfoPhoenix.Services;
@@ -22,10 +23,12 @@ namespace Nameless.InfoPhoenix.Handlers {
         #region IRequestHandler<CreateNewDocumentRequest, CreateNewDocumentResponse> Members
 
         public Task<CreateNewDocumentResponse> Handle(CreateNewDocumentRequest request, CancellationToken cancellationToken) {
-            var result = _documentService.Create(
-                request.DocumentFolderID,
-                request.FilePath
-            );
+            var document = new Document {
+                DocumentFolderID = request.DocumentFolderID,
+                FilePath = request.FilePath
+            };
+
+            var result = _documentService.Save(document);
 
             var response = new CreateNewDocumentResponse {
                 Entity = result.Entity,

@@ -27,7 +27,7 @@ namespace Nameless.InfoPhoenix.Handlers {
         #region IRequestHandler<IndexDocumentsRequest, IndexDocumentsResponse> Members
 
         public Task<IndexDocumentsResponse> Handle(IndexDocumentsRequest request, CancellationToken cancellationToken) {
-            IndexDocumentsResponse result;
+            //IndexDocumentsResponse result;
 
             var databaseDocs = _documentFolderService
                 .GetDocuments(request.DocumentFolderID, includeRawFile: false)
@@ -38,7 +38,8 @@ namespace Nameless.InfoPhoenix.Handlers {
 
             var toAdd = fileSystemDocs.Except(databaseDocs);
 
-            return Task.FromResult(result);
+            //return Task.FromResult(result);
+            throw new NotImplementedException();
         }
 
         #endregion
