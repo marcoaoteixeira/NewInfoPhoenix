@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Nameless.InfoPhoenix.Client</RootNamespace>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+
+		<!-- CODE ANALYSIS -->
+		<AnalysisLevel>latest</AnalysisLevel>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<EnableNETAnalyzers>True</EnableNETAnalyzers>
+		<RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
+		<RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
+		<BaseOutputPath>..\..\bin</BaseOutputPath>
+		<ApplicationManifest>App.manifest</ApplicationManifest>
+		<ApplicationIcon>Resources\info_fenix_icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="AppSettings.json" />
+	  <None Remove="Resources\info_fenix_icon.ico" />
+	  <None Remove="Resources\info_fenix_splash_screen.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="AppSettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Resources\info_fenix_icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Nameless.InfoPhoenix.Core\Nameless.InfoPhoenix.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <SplashScreen Include="Resources\info_fenix_splash_screen.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+	  <PackageReference Include="WPF-UI" Version="2.1.0" />
+	</ItemGroup>
+
+</Project>
