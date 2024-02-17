@@ -1,4 +1,4 @@
-name: Development Cycle
+name: Development Cycle 
 
 on:
 
@@ -14,38 +14,36 @@ jobs:
 
     strategy:
       matrix:
+        dotnet-version: ['8.0.x']
         vs-version: ['17.8.5']
 
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4.1.1
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Setup .NET Framework
+      - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
         with:
           vs-version: ${{ matrix.vs-version }}
 
       - name: Setup GitHub package registry for NuGet
         run: |
-          dotnet nuget add source `
-          --username ${{ github.repository_owner }} `
-          --password ${{ secrets.GITHUB_TOKEN }} `
-          --store-password-in-clear-text `
-          --name github ${{ vars.NUGET_SOURCE_URL }}
+          dotnet nuget add source --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github ${{ vars.NUGET_SOURCE_URL }}
 
       - name: Restore solution
-        run: msbuild -t:Restore
+        run: dotnet restore
 
       - name: Build solution
         if: success()
         run: |
-          msbuild -t:rebuild \
-          -p:Configuration=Debug \
-          -v:normal
+          msbuild -t:rebuild -p:Configuration=Debug -v:normal
 
       - name: Run tests
         if: success()
         run: |
-          vstest.console `
-          .\bin\Debug\net6.0\Nameless.InfoPhoenix.Tests.dll `
-          /logger:"console;verbosity=normal"
+          vstest.console .\bin\Debug\net6.0\Nameless.InfoPhoenix.Tests.dll /logger:"console;verbosity=normal"

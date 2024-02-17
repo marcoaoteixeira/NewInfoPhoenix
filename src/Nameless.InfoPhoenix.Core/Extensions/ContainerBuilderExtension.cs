@@ -1,22 +1,24 @@
-﻿using System.Data;
-using Autofac;
-using Autofac.Core;
-using Microsoft.Extensions.FileProviders;
+﻿using Autofac;
 using Nameless.Autofac;
 using Nameless.Data;
 using Nameless.Data.SQLite;
 using Nameless.Data.SQLite.Options;
+using Nameless.Infrastructure;
 
 namespace Nameless.InfoPhoenix {
     public static class ContainerBuilderExtension {
         #region Public Static Methods
 
         public static ContainerBuilder RegisterDatabase(this ContainerBuilder self) {
-            const string DB_CONNECTION_FACTORY_KEY = "DB_CONNECTION_FACTORY_69cf6905-c799-402b-8416-2bfa5a81f7ab";
+            const string DB_CONNECTION_FACTORY_KEY = $"{nameof(DbConnectionFactory)}::69cf6905-c799-402b-8416-2bfa5a81f7ab";
 
             self
                 .Register(ctx => {
+                    var applicationContext = ctx.Resolve<IApplicationContext>();
                     var options = ctx.GetOptions<SQLiteOptions>();
+                    var databasePath = Path.Combine(applicationContext.ApplicationDataFolderPath, "database.db");
+
+                    options.DatabaseName = databasePath;
 
                     return new DbConnectionFactory(options);
                 })
@@ -31,27 +33,10 @@ namespace Nameless.InfoPhoenix {
 
                     return new Database(dbConnectionFactory, logger);
                 })
-                .OnActivated(DatabaseStartUp)
                 .As<IDatabase>()
                 .SingleInstance();
 
             return self;
-        }
-
-        #endregion
-
-        #region Private Static Methods
-
-        private static void DatabaseStartUp(IActivatedEventArgs<Database> args) {
-            var databaseSchemaFilePath = Path.Combine("sql_scripts", "Database_Schema.sql");
-            var fileProvider = args.Context.Resolve<IFileProvider>();
-            var databaseSchemaFile = fileProvider.GetFileInfo(databaseSchemaFilePath);
-
-            using var stream = databaseSchemaFile.CreateReadStream();
-
-            var databaseSchemaContent = stream.ToText();
-
-            args.Instance.ExecuteNonQuery(databaseSchemaContent, CommandType.Text);
         }
 
         #endregion

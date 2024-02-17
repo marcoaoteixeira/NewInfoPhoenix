@@ -3,9 +3,14 @@ using System.Reflection;
 using Autofac;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Nameless.InfoPhoenix.Bootstrap;
+using Nameless.InfoPhoenix.Client.Infrastructure;
+using Nameless.InfoPhoenix.Client.ViewModels;
 using Nameless.InfoPhoenix.Client.Views;
+using Nameless.InfoPhoenix.Client.Views.Pages;
 using Nameless.InfoPhoenix.Infrastructure;
 using Nameless.Lucene.DependencyInjection;
+using Wpf.Ui;
 
 namespace Nameless.InfoPhoenix.Client {
     /// <summary>
@@ -31,7 +36,7 @@ namespace Nameless.InfoPhoenix.Client {
 
         public App() {
             _host = HostFactory
-                .Create()
+                .Create("--applicationName=INFO PHOENIX")
                 .SetConfigureServices(ConfigureServices)
                 .SetConfigureContainer(ConfigureContainerBuilder)
                 .Build();
@@ -41,19 +46,20 @@ namespace Nameless.InfoPhoenix.Client {
 
         #region Protected Override Methods
 
-        protected override async void OnStartup(StartupEventArgs e) {
-            await _host.StartAsync();
+        protected override void OnStartup(StartupEventArgs e) {
+            _host.Start();
 
-            _host
-                .Services
-                .GetRequiredService<MainWindow>()
-                .Show();
+            // Execute bootstrap steps.
+            _host.Services.GetRequiredService<IBootstrap>().Run();
+
+            // Open the main window.
+            _host.Services.GetRequiredService<IWindow>().Show();
 
             base.OnStartup(e);
         }
 
-        protected override async void OnExit(ExitEventArgs e) {
-            await _host.StopAsync();
+        protected override void OnExit(ExitEventArgs e) {
+            _host.Dispose();
 
             base.OnExit(e);
         }
@@ -81,9 +87,24 @@ namespace Nameless.InfoPhoenix.Client {
                 .RegisterMediatR(SupportAssemblies)
                 .RegisterOffice()
                 .RegisterServices()
-                .RegisterRepositories();
+                .RegisterRepositories()
+                .RegisterBootstrap();
 
-            services.AddSingleton<MainWindow>();
+            // WPF-UI Services
+            services.AddSingleton<INavigationService, NavigationService>();
+
+            // Window & Pages
+            services.AddSingleton<IWindow, MainWindow>();
+            services.AddSingleton<MainWindowViewModel>();
+
+            services.AddSingleton<HomePage>();
+            services.AddSingleton<HomeViewModel>();
+
+            services.AddSingleton<DocumentFolderPage>();
+            services.AddSingleton<DocumentFolderViewModel>();
+
+            services.AddSingleton<SettingsPage>();
+            services.AddSingleton<SettingsViewModel>();
         }
 
         private static void ConfigureContainerBuilder(HostBuilderContext context, ContainerBuilder builder) {

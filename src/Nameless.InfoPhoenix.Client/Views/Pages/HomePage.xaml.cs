@@ -2,16 +2,16 @@
 using Nameless.InfoPhoenix.Client.ViewModels;
 
 namespace Nameless.InfoPhoenix.Client.Views.Pages {
-    public partial class DocumentFolderPage : Page {
+    public partial class HomePage : Page {
         #region Public Properties
 
-        public DocumentFolderViewModel ViewModel { get; }
+        public HomeViewModel ViewModel { get; }
 
         #endregion
 
         #region Public Constructors
 
-        public DocumentFolderPage(DocumentFolderViewModel viewModel) {
+        public HomePage(HomeViewModel viewModel) {
             ViewModel = Guard.Against.Null(viewModel, nameof(viewModel));
 
             DataContext = this;
