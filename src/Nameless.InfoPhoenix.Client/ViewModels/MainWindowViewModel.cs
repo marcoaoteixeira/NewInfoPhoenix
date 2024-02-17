@@ -1,18 +1,23 @@
 ﻿using System.Collections.ObjectModel;
 using Nameless.InfoPhoenix.Client.Views.Pages;
 using Nameless.Infrastructure;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 
 namespace Nameless.InfoPhoenix.Client.ViewModels {
-    public partial class MainViewModel : ObservableObject {
+    public partial class MainWindowViewModel : ObservableObject {
         #region Private Read-Only Fields
 
         private readonly IApplicationContext _applicationContext;
 
         #endregion
 
-        #region Observable Fields
+        #region Private Fields
+
+        private bool _initialized;
+
+        #endregion
+
+        #region Private Properties (Observable)
 
         [ObservableProperty]
         private string _applicationTitle = string.Empty;
@@ -27,7 +32,7 @@ namespace Nameless.InfoPhoenix.Client.ViewModels {
 
         #region Public Constructors
 
-        public MainViewModel(IApplicationContext applicationContext) {
+        public MainWindowViewModel(IApplicationContext applicationContext) {
             _applicationContext = applicationContext;
 
             Initialize();
@@ -38,28 +43,32 @@ namespace Nameless.InfoPhoenix.Client.ViewModels {
         #region Private Methods
 
         private void Initialize() {
+            if (_initialized) { return; }
+
             ApplicationTitle = $"{_applicationContext.ApplicationName} {_applicationContext.SemVer}";
 
             SidebarNavigationItems = [
-                new NavigationItem {
+                new NavigationViewItem {
                     Content = "Home",
-                    Icon = SymbolRegular.Home24,
-                    PageType = typeof(DashboardPage)
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
+                    TargetPageType = typeof(HomePage)
                 },
-                new NavigationItem {
+                new NavigationViewItem {
                     Content = "Diretórios",
-                    Icon = SymbolRegular.Folder24,
-                    PageType = typeof(DocumentFolderPage)
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Folder24 },
+                    TargetPageType = typeof(DocumentFolderPage)
                 }
             ];
 
             FooterNavigationItems = [
-                new NavigationItem {
+                new NavigationViewItem {
                     Content = "Configurações",
-                    Icon = SymbolRegular.Settings24,
-                    PageType = typeof(ConfigurationPage)
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.Settings24 },
+                    TargetPageType = typeof(SettingsPage)
                 }
             ];
+
+            _initialized = true;
         }
 
         #endregion

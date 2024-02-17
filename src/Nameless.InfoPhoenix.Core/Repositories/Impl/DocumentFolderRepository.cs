@@ -47,7 +47,6 @@ namespace Nameless.InfoPhoenix.Repositories.Impl {
         public bool Insert(DocumentFolder documentFolder) {
             var sql = GetSqlScript<DocumentFolder>(nameof(Insert));
 
-            documentFolder.ID = Guid.NewGuid();
             documentFolder.CreatedAt = DateTime.Now;
             documentFolder.ModifiedAt = null;
 

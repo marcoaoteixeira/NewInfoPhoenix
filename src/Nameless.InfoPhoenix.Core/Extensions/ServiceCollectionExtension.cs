@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Nameless.InfoPhoenix.Bootstrap;
+using Nameless.InfoPhoenix.Bootstrap.Impl;
 using Nameless.InfoPhoenix.Office;
 using Nameless.InfoPhoenix.Office.Impl;
 using Nameless.InfoPhoenix.Repositories;
@@ -58,6 +60,13 @@ namespace Nameless.InfoPhoenix {
                 .AddSingleton<IDocumentFolderService, DocumentFolderService>()
                 .AddSingleton<IDocumentService, DocumentService>()
                 .AddSingleton<IIndexingService, IndexingService>();
+
+        public static IServiceCollection RegisterBootstrap(this IServiceCollection self)
+            => self
+                .AddBootstrap()
+                .AddStep<InitializeDatabaseStep>()
+                .AddStep<SeedDatabaseStep>()
+                .Build();
 
         #endregion
     }

@@ -19,33 +19,43 @@
 		<RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
 		<BaseOutputPath>..\..\bin</BaseOutputPath>
 		<ApplicationManifest>App.manifest</ApplicationManifest>
-		<ApplicationIcon>Resources\info_fenix_icon.ico</ApplicationIcon>
+		<ApplicationIcon>Resources\info_phoenix_icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="AppSettings.json" />
-	  <None Remove="Resources\info_fenix_icon.ico" />
-	  <None Remove="Resources\info_fenix_splash_screen.png" />
+		<None Remove="AppSettings.json" />
+		<None Remove="Resources\info_phoenix_icon.png" />
+		<None Remove="Resources\info_phoenix_splash_screen.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="AppSettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Include="Resources\info_fenix_icon.ico" />
+		<Content Include="AppSettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resources\info_phoenix_icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Nameless.InfoPhoenix.Core\Nameless.InfoPhoenix.Core.csproj" />
+		<ProjectReference Include="..\Nameless.InfoPhoenix.Core\Nameless.InfoPhoenix.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <SplashScreen Include="Resources\info_fenix_splash_screen.png" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="WPF-UI" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-	  <PackageReference Include="WPF-UI" Version="2.1.0" />
+		<Content Include="Resources\info_phoenix_icon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<SplashScreen Include="Resources\info_phoenix_splash_screen.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\UserControls\" />
 	</ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using Nameless.InfoPhoenix.Client.ViewModels;
 
 namespace Nameless.InfoPhoenix.Client.Views.Pages {
-    public partial class DocumentFolderPage : Page {
+    public partial class DocumentFolderDialog : Page {
         #region Public Properties
 
         public DocumentFolderViewModel ViewModel { get; }
@@ -10,8 +10,8 @@ namespace Nameless.InfoPhoenix.Client.Views.Pages {
         #endregion
 
         #region Public Constructors
-
-        public DocumentFolderPage(DocumentFolderViewModel viewModel) {
+        
+        public DocumentFolderDialog(DocumentFolderViewModel viewModel) {
             ViewModel = Guard.Against.Null(viewModel, nameof(viewModel));
 
             DataContext = this;

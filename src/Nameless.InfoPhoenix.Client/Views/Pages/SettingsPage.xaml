@@ -1,0 +1,50 @@
+﻿<Page x:Class="Nameless.InfoPhoenix.Client.Views.Pages.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Nameless.InfoPhoenix.Client.Views.Pages"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      mc:Ignorable="d" 
+      
+      d:DataContext="{d:DesignInstance local:SettingsPage, IsDesignTimeCreatable=False}"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      Title="{Binding ViewModel.Title, Mode=OneWay}">
+
+    <StackPanel
+        Margin="24">
+        <ui:TextBlock
+            Margin="0,0,0,10"
+            FontTypography="Title"
+            Text="Aparência &amp; Comportamento" />
+        <ui:CardControl
+            Icon="{ui:SymbolIcon Color24}">
+            <ui:CardControl.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        FontTypography="Body"
+                        Text="Tema da Aplicação" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="Selecione a aparência da aplicação" />
+                </Grid>
+            </ui:CardControl.Header>
+            <ComboBox
+                Grid.Column="1"
+                MinWidth="200"
+                SelectedIndex="{Binding ViewModel.CurrentAppTheme, Converter={StaticResource ThemeToIndexConverter}, Mode=TwoWay}">
+                <ComboBoxItem Content="Sistema" />
+                <ComboBoxItem Content="Escuro" />
+                <ComboBoxItem Content="Claro" />
+                <ComboBoxItem Content="Alto contraste" />
+            </ComboBox>
+        </ui:CardControl>
+    </StackPanel>
+</Page>

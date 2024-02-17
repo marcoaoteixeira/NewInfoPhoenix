@@ -39,6 +39,7 @@ namespace Nameless.InfoPhoenix.Services.Impl {
 
         public DocumentFolderResult Create(string label, string folderPath, int order) {
             var documentFolder = new DocumentFolder {
+                ID = Guid.NewGuid(),
                 Label = Guard.Against.NullOrWhiteSpace(label, nameof(label)),
                 FolderPath = Guard.Against.NullOrWhiteSpace(folderPath, nameof(folderPath)),
                 Order = order

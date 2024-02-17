@@ -10,15 +10,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Nameless.InfoPhoenix.Client.Views.Pages {
+namespace Nameless.InfoPhoenix.Client.Views.Windows {
     /// <summary>
-    /// Interaction logic for DashboardPage.xaml
+    /// Interaction logic for ShowDocumentWindow.xaml
     /// </summary>
-    public partial class DashboardPage : Page {
-        public DashboardPage() {
+    public partial class ShowDocumentWindow : Window {
+        public ShowDocumentWindow() {
             InitializeComponent();
         }
     }
